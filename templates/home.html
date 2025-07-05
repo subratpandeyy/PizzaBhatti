@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+    {% block content %}
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Authentic Odia Pizza</h1>
+            <p>Experience the perfect blend of fresh ingredients and traditional recipes</p>
+            <a href="#services" class="cta-button">Explore Services</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="section-title fade-in">About Us</div>
+        <div class="about-content">
+            <div class="about-text fade-in">
+                <h3>Our Story</h3>
+                <p>Founded in 2025, Pizza Bhatti has been serving authentic Odia pizza made with love and tradition. Our secret? Fresh ingredients imported directly from Italy, combined with time-honored recipes passed down through generations.</p>
+                <p>Every pizza is hand-tossed and baked in our wood-fired oven, ensuring that perfect crispy crust and melted cheese blend that makes our customers come back for more.</p>
+            </div>
+            <div class="about-image fade-in">
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="section-title fade-in">Our Services</div>
+        <div class="menu-grid">
+            <div class="menu-item fade-in">
+                <div class="menu-item-image service-delivery">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Fast Delivery</h3>
+                    <p>Hot, fresh pizza delivered to your door in 30 minutes or less</p>
+                    <div class="price">Free delivery over ₹25</div>
+                </div>
+            </div>
+            
+            <div class="menu-item fade-in">
+                <div class="menu-item-image service-online">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Online Ordering</h3>
+                    <p>Order ahead through our mobile app or website</p>
+                    <div class="price">Skip the wait</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-image service-catering">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Party Catering</h3>
+                    <p>Large orders for events, parties, and corporate meetings</p>
+                    <div class="price">24hr notice preferred</div>
+                </div>
+            </div>
+            
+            <div class="menu-item fade-in">
+                <div class="menu-item-image service-night">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Late Night Service</h3>
+                    <p>Serving hungry customers until midnight on weekends</p>
+                    <div class="price">Perfect for night owls</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="options">
+        <div class="section-title fade-in">More Options</div>
+        <div class="menu-grid">
+            <div class="menu-item fade-in">
+                <div class="menu-item-image option-salad">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Fresh Salads</h3>
+                    <p>Crisp, healthy salads made with organic ingredients</p>
+                    <div class="price">Garden • Caesar • Antipasto</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-image option-pasta">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Pasta Dishes</h3>
+                    <p>Authentic Odia pasta with homemade sauces</p>
+                    <div class="price">Spaghetti • Lasagna • Ravioli</div>
+                </div>
+            </div>
+            <div class="menu-item fade-in">
+                <div class="menu-item-image option-wings">
+                </div>
+                <div class="menu-item-content">
+                    <h3>Chicken Wings</h3>
+                    <p>Crispy wings with your choice of sauce</p>
+                    <div class="price">Buffalo • BBQ • Garlic Parmesan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+
+        // Form submission
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Thank you for your message! We\'ll get back to you soon.');
+                e.target.reset();
+            });
+        }
+    </script>
+    {% endblock content %}

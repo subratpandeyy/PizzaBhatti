@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="menu">
+    <h2>Your Cart</h2>
+
+    {% if cart %}
+    <ul class="cart-list">
+        {% for item in cart %}
+        <li class="cart-item">
+            <img src="{{ url_for('static', filename='images/' ~ item.img) }}" alt="{{ item.name }}" width="60">
+            <strong>{{ item.name }}</strong> — ₹{{ item.price }} × {{ item.quantity }} = ₹{{ item.subtotal }}
+
+            <form action="{{ url_for('update_cart') }}" method="post" class="update-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="pizza_id" value="{{ item.id }}">
+                <button type="submit" name="action" value="add" aria-label="Increase Quantity">+</button>
+                <button type="submit" name="action" value="remove" aria-label="Decrease Quantity">-</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="cart-summary">
+        <h3>Total: ₹{{ total }}</h3>
+
+        <form action="{{ url_for('checkout') }}" method="post" class="payment-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <h3>Choose Payment Method</h3>
+
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="COD" required>
+                <span>Cash on Delivery</span>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="GPay">
+                <span>Google Pay</span>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="PhonePe">
+                <span>PhonePe</span>
+            </label>
+
+            <div class="qr-section">
+                <p>Scan QR for UPI Payments</p>
+                <img src="{{ url_for('static', filename='images/mock-qr.png') }}" alt="UPI QR Code" width="160">
+            </div>
+
+            <label for="note">Add a note (optional):</label>
+            <textarea name="note" id="note" rows="2" placeholder="Any special delivery instructions..."></textarea>
+
+            <button type="submit" class="place-order-btn">Place Order</button>
+        </form>
+
+        <a href="{{ url_for('clear_cart') }}">
+            <button class="clear-cart-btn">Clear Cart</button>
+        </a>
+    </div>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</section>
+{% endblock %}

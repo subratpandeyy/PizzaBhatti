@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <h2>Sign Up</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.username.label }}
+        {{ form.username(size=32) }}
+
+        {{ form.email.label }}
+        {{ form.email(size=32) }}
+
+        {{ form.gender.label }}
+        {{ form.gender() }}
+
+        {{ form.password.label }}
+        {{ form.password(size=32) }}
+
+        {{ form.submit(class="btn") }}
+    </form>
+    <div class="form-footer">
+      Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="menu">
+
+    <!-- Veg / Non-Veg Toggle Switch -->
+    <div class="toggle-switch">
+        <label class="switch">
+            <input type="checkbox" id="vegToggle" checked>
+            <span class="slider round"></span>
+        </label>
+        <span class="toggle-label" id="toggleLabel">Veg 🌱</span>
+    </div>
+
+    <h2>Our Delicious Menu</h2>
+
+    <div class="menu-items">
+        {% for pizza in pizzas %}
+        <div class="item {% if pizza.veg %}veg{% else %}nonveg{% endif %}">
+            <img src="{{ url_for('static', filename=pizza.img) }}" alt="{{ pizza.name }}">
+            <h3>{{ pizza.name }}</h3>
+            <p>{{ "Veg 🌱" if pizza.veg else "Non-Veg 🍗" }}</p>
+            <span>₹{{ pizza.price }}</span>
+
+            {% if session.get('user') %}
+            <form method="post" action="{{ url_for('add_to_cart') }}" class="item-btn">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="pizza_id" value="{{ pizza.id }}">
+                <button type="submit">Add to Cart</button>
+            </form>
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn">Login to Order</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    const toggle = document.getElementById("vegToggle");
+    const label = document.getElementById("toggleLabel");
+
+    toggle.addEventListener("change", () => {
+        label.textContent = toggle.checked ? "Veg 🌱" : "Non-Veg 🍗";
+
+        document.querySelectorAll('.item').forEach(item => {
+            const isVeg = item.classList.contains('veg');
+            const isNonVeg = item.classList.contains('nonveg');
+
+            item.style.display =
+                (toggle.checked && isVeg) || (!toggle.checked && isNonVeg)
+                ? "block"
+                : "none";
+        });
+    });
+</script>
+{% endblock %}
